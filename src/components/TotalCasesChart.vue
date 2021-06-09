@@ -1,21 +1,24 @@
 <template>
-  <LineChart v-if="loaded" :chartData="datacollection" :options="chartOptions" />
+  <LineChart
+    v-if="loaded"
+    :chartData="datacollection"
+    :options="chartOptions"
+  />
 </template>
 
 <script>
 import moment from "moment";
 import LineChart from "@/components/Charts/LineChart";
-import {EventBus} from '@/main.js'
 
 export default {
   name: "TotalCasesChart",
   components: {
     LineChart,
   },
+  props: ["country"],
   data() {
     return {
       loaded: false,
-      country: '',
       dates: [],
       datacollection: {},
       confirmed: [],
@@ -41,48 +44,58 @@ export default {
       }
     },
     async fillData() {
-        const data = await this.fetchCountryData();
+      const data = await this.fetchCountryData();
 
       data.forEach((d) => {
-        this.dates.push(moment(d.Date, "YYYY MM Do h:mm:ss a").format("DD/MM/YYYY"))
-        this.confirmed.push(d.Confirmed)
-        this.deaths.push(d.Deaths)
-        this.recovered.push(d.Recovered)
-        this.active.push(d.Active)
+        this.dates.push(
+          moment(d.Date, "YYYY MM Do h:mm:ss a").format("DD/MM/YYYY")
+        );
+        this.confirmed.push(d.Confirmed);
+        this.deaths.push(d.Deaths);
+        this.recovered.push(d.Recovered);
+        this.active.push(d.Active);
       });
 
-      
-      this.datacollection = { 
-          labels: this.dates,
-          datasets: [{
-              label: 'Confirmed',
-              data: this.confirmed
+      this.datacollection = {
+        labels: this.dates,
+        datasets: [
+          {
+            label: "Confirmed",
+            data: this.confirmed,
+            borderColor:"#0062A3",
+            pointBorderColor: "#0062A3",
+            pointBackgroundColor: "#1FA5FF",
+            backgroundColor: "#1FA5FF"
           },
           {
-              label: 'Deaths',
-              data: this.deaths
+            label: "Deaths",
+            data: this.deaths,
+            borderColor:"#E00F00",
+            pointBorderColor: "#E00F00",
+            pointBackgroundColor: "#FF4133",
+            backgroundColor: "#FF4133"
           },
           {
-              label: 'Recovered',
-              data: this.recovered
-          }
-         ]}
-    }
+            label: "Recovered",
+            data: this.recovered,
+            borderColor:"#35C073",
+            pointBorderColor: "#35C073",
+            pointBackgroundColor: "#60D394",
+            backgroundColor: "#60D394"
+          },
+        ],
+      };
+    },
   },
-    async mounted() {
+  async created() {
     this.loaded = false;
+    
     try {
-      this.fillData()
+      this.fillData();
       this.loaded = true;
     } catch (e) {
       console.log(e);
     }
-
   },
-  created() {
-      EventBus.$on("get-country", (country) => {
-      this.country = country.Slug;
-    });
-  }
 };
 </script>

@@ -12,7 +12,7 @@
       class="bg-green-700 text-white rounded p-3 mt-10 focus:outline-none hover:bg-green-600
     ">Clear Country</button>
 
-    <TotalCasesChart v-if="stats.Country"/>
+    <TotalCasesChart v-if="stats.Country" :country="stats.Slug"/>
   </main>
 
   <main class="flex flex-col align-center justify-center text-center" v-else> 
