@@ -1,9 +1,17 @@
 <template>
+<div>
   <LineChart
     v-if="loaded"
     :chartData="datacollection"
     :options="chartOptions"
   />
+  <LineChart 
+    v-if="loaded"
+    :chartData="datacollectionActive"
+    :options="chartOptions"
+  />
+</div>
+  
 </template>
 
 <script>
@@ -20,16 +28,23 @@ export default {
     return {
       loaded: false,
       dates: [],
-      datacollection: {},
       confirmed: [],
       deaths: [],
       recovered: [],
       active: [],
+      datacollection: {},
+      datacollectionActive: {},
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
       },
     };
+  },
+  watch: {
+    'country' () {
+      this.resetData()
+      this.fillData()
+    }
   },
   methods: {
     async fetchCountryData() {
@@ -85,7 +100,24 @@ export default {
           },
         ],
       };
+
+      this.datacollectionActive = {
+        labels: this.dates,
+        datasets: [
+          {
+            label: "Active",
+            data: this.active
+          }
+        ]
+      }
     },
+    resetData() {
+      this.dates = []
+      this.confirmed = []
+      this.deaths = []
+      this.recovered = []
+      this.active = []
+    }
   },
   async created() {
     this.loaded = false;
