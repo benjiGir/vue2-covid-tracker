@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@svg-maps/france.departments": "^1.0.1",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9",
     "chart.js": "^2.9.4",
@@ -15,7 +16,8 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vue-svg-map": "^1.2.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

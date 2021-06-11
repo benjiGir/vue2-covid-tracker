@@ -2,7 +2,9 @@
   <div>
     <Header />
     <div class="container mx-auto px-8">
-      <router-view />
+      <keep-alive include="Home"> 
+        <router-view />
+      </keep-alive>
     </div>
   </div>
 </template>
